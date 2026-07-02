@@ -3,40 +3,40 @@
 namespace App\Models;
 
 use App\Enums\RolUsuario;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class Usuario extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+  use HasApiTokens, Notifiable;
 
-    protected $table = 'usuarios';
+  protected $table = 'usuarios';
 
-    protected $fillable = [
-        'username',
-        'nombre',
-        'email',
-        'password',
-        'rol',
-        'empleado_id',
-        'activo',
-    ];
+  protected $fillable = [
+    'username',
+    'nombre',
+    'email',
+    'password',
+    'rol',
+    'empleado_id',
+    'activo',
+  ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+  protected $hidden = [
+    'password',
+    'remember_token',
+  ];
 
-    protected $casts = [
-        'rol' => RolUsuario::class,
-        'activo' => 'boolean',
-        'password' => 'hashed',
-    ];
+  protected $casts = [
+    'rol' => RolUsuario::class,
+    'activo' => 'boolean',
+    'password' => 'hashed',
+  ];
 
-    public function empleado(): BelongsTo
-    {
-        return $this->belongsTo(Empleado::class, 'empleado_id');
-    }
+  public function empleado(): BelongsTo
+  {
+    return $this->belongsTo(Empleado::class, 'empleado_id');
+  }
 }
