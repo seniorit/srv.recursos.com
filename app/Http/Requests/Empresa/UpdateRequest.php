@@ -22,7 +22,6 @@ class UpdateRequest extends RequestImplement
   public function rules(): array
   {
     return [
-      'id' => ['required', 'string'],
       'nombre_comercial' => ['sometimes', 'string', 'max:255'],
       'razon_social' => ['sometimes', 'string', 'max:255'],
       'rif' => ['sometimes', 'string', 'max:50'],

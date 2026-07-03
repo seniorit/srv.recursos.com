@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
   public function boot(): void
   {
     Schema::defaultStringLength(255);
+    \Laravel\Sanctum\Sanctum::usePersonalAccessTokenModel(\App\Models\PersonalAccessToken::class);
     $this->utilitiesHelper();
     $this->rateLimiter();
   }

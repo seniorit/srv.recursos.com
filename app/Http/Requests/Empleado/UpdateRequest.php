@@ -30,20 +30,19 @@ class UpdateRequest extends RequestImplement
   public function rules(): array
   {
     return [
-      'id' => ['required', 'string', 'min:1', 'max:36'],
-      'empresa_id' => ['required', 'exists:empresas,id'],
-      'codigo_empleado' => ['required', 'string', 'min:1', 'max:30'],
-      'nombre_completo' => ['required', 'string', 'min:1', 'max:150'],
-      'fecha_nacimiento' => ['required', 'date'],
-      'genero' => ['required', 'string', Rule::in(array_map(fn($case) => $case->value, Genero::cases()))],
-      'cedula_identidad' => ['required', 'string', 'min:1', 'max:20'],
-      'rif' => ['required', 'string', 'min:1', 'max:20'],
-      'fecha_inicio' => ['required', 'date'],
-      'departamento' => ['required', 'string', Rule::in(array_map(fn($case) => $case->value, Departamento::cases()))],
-      'cargo' => ['required', 'string', 'min:1', 'max:150'],
-      'correo_trabajo' => ['required', 'string', 'min:1', 'max:100'],
-      'telefono' => ['required', 'string', 'min:1', 'max:50'],
-      'contacto_emergencia' => ['required', 'string', 'min:1'],
+      'empresa_id' => ['sometimes', 'exists:empresas,id'],
+      'codigo_empleado' => ['sometimes', 'string', 'min:1', 'max:30'],
+      'nombre_completo' => ['sometimes', 'string', 'min:1', 'max:150'],
+      'fecha_nacimiento' => ['sometimes', 'date'],
+      'genero' => ['sometimes', 'string', Rule::in(array_map(fn($case) => $case->value, Genero::cases()))],
+      'cedula_identidad' => ['sometimes', 'string', 'min:1', 'max:20'],
+      'rif' => ['sometimes', 'string', 'min:1', 'max:20'],
+      'fecha_inicio' => ['sometimes', 'date'],
+      'departamento' => ['sometimes', 'string', Rule::in(array_map(fn($case) => $case->value, Departamento::cases()))],
+      'cargo' => ['sometimes', 'string', 'min:1', 'max:150'],
+      'correo_trabajo' => ['sometimes', 'string', 'min:1', 'max:100'],
+      'telefono' => ['sometimes', 'string', 'min:1', 'max:50'],
+      'contacto_emergencia' => ['sometimes', 'string', 'min:1'],
       'banco_nombre' => ['nullable', 'string', 'min:1', 'max:100'],
       'banco_cuenta' => ['nullable', 'string', 'min:1', 'max:20'],
       'banco_tipo_cuenta' => ['nullable', 'string', Rule::in(array_map(fn($case) => $case->value, TipoBancoCuenta::cases()))],
@@ -51,12 +50,12 @@ class UpdateRequest extends RequestImplement
       'pago_movil_cedula' => ['nullable', 'string', 'min:1', 'max:20'],
       'pago_movil_telefono' => ['nullable', 'string', 'min:1', 'max:30'],
       'pago_movil_tipo' => ['nullable', 'string', Rule::in(array_map(fn($case) => $case->value, PagoMovilTipo::cases()))],
-      'tipo_contrato' => ['required', 'string', Rule::in(array_map(fn($case) => $case->value, TipoContrato::cases()))],
-      'tipo_concepto' => ['required', 'string', Rule::in(array_map(fn($case) => $case->value, TipoConcepto::cases()))],
-      'monto_sueldo_usd' => ['required', 'numeric'],
-      'frecuencia_pago' => ['required', 'string', Rule::in(array_map(fn($case) => $case->value, FrecuenciaPago::cases()))],
+      'tipo_contrato' => ['sometimes', 'string', Rule::in(array_map(fn($case) => $case->value, TipoContrato::cases()))],
+      'tipo_concepto' => ['sometimes', 'string', Rule::in(array_map(fn($case) => $case->value, TipoConcepto::cases()))],
+      'monto_sueldo_usd' => ['sometimes', 'numeric'],
+      'frecuencia_pago' => ['sometimes', 'string', Rule::in(array_map(fn($case) => $case->value, FrecuenciaPago::cases()))],
       'foto_perfil_url' => ['nullable', 'string', 'min:1', 'max:255'],
-      'activo' => ['required', 'boolean']
+      'activo' => ['sometimes', 'boolean']
     ];
   }
 }

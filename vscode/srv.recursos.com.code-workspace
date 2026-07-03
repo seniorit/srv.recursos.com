@@ -22,8 +22,10 @@
     "terminal.integrated.fontFamily": "'Hack Nerd Font', monospace",
     "terminal.integrated.suggest.cdPath": "relative",
     "terminal.integrated.suggest.enabled": true,
-    "phpNamespaceResolver.sortMode": "length",
     "phpNamespaceResolver.sortOnSave": true,
+    "phpNamespaceResolver.removeOnSave": true,
+    "phpNamespaceResolver.sortMode": "length",
+    "phpNamespaceResolver.autoImportOnSave": true,
     "intelephense.diagnostics.undefinedMethods": false,
     "intelephense.diagnostics.undefinedProperties": false,
     "intelephense.files.exclude": [

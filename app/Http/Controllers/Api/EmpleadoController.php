@@ -3,52 +3,33 @@
 namespace App\Http\Controllers\Api;
 
 use Throwable;
-use App\Models\Empleado;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\HttpHandler\StatusHttp;
 use App\Exceptions\ControllerHandler;
 use App\Http\HttpHandler\ResponseHttp;
+use App\Http\Services\EmpleadoService;
 use App\Http\Requests\Empleado\CreateRequest;
 use App\Http\Requests\Empleado\UpdateRequest;
 
 class EmpleadoController extends Controller
 {
+  public function __construct(private readonly EmpleadoService $empleadoService) {}
+
   public function index(): JsonResponse
   {
-    return $this->getAll();
-  }
-
-  public function show(string $id): JsonResponse
-  {
-    return $this->getId($id);
-  }
-
-  public function getAll(): JsonResponse
-  {
     try {
-      $arrData = Empleado::orderBy('codigo_empleado', 'asc')->get();
+      $arrData = $this->empleadoService->getAll();
       return ResponseHttp::responseJson($arrData);
     } catch (Throwable $e) {
       return ControllerHandler::handler($e);
     }
   }
 
-  public function getId(string $id): JsonResponse
+  public function store(CreateRequest $request): JsonResponse
   {
     try {
-      $arrData = Empleado::findOrFail($id);
-      return ResponseHttp::responseJson($arrData);
-    } catch (Throwable $e) {
-      return ControllerHandler::handler($e);
-    }
-  }
-
-  public function create(CreateRequest $request): JsonResponse
-  {
-    try {
-
-      $arrData = Empleado::create($request->validated());
+      $arrData = $this->empleadoService->create($request->validated());
       return ResponseHttp::statusData(
         msg: 'Registro Ingresado Exitosamente',
         statusCode: StatusHttp::HTTP_CREATED,
@@ -59,11 +40,32 @@ class EmpleadoController extends Controller
     }
   }
 
-  public function update(UpdateRequest $request): JsonResponse
+  public function show(string $id): JsonResponse
   {
     try {
-      $arrData = Empleado::findOrFail($request->id);
-      $arrData->update($request->validated());
+      $arrData = $this->empleadoService->getById($id);
+
+      return ResponseHttp::statusData(
+        msg: null,
+        data: $arrData
+      );
+    } catch (Throwable $e) {
+      return ControllerHandler::handler($e);
+    }
+  }
+
+  public function update(UpdateRequest $request, ?string $id = null): JsonResponse
+  {
+    try {
+      $targetId = $id ?? $request->input('id');
+      if (blank($targetId)) {
+        return ResponseHttp::statusError(
+          statusCode: StatusHttp::HTTP_BAD_REQUEST,
+          msg: 'El identificador del empleado es requerido.'
+        );
+      }
+
+      $arrData = $this->empleadoService->update($targetId, $request->validated());
 
       return ResponseHttp::statusData(
         msg: 'Registro Actualizado exitosamente',
@@ -77,8 +79,7 @@ class EmpleadoController extends Controller
   public function destroy(string $id): JsonResponse
   {
     try {
-      $data = Empleado::findOrFail($id);
-      $data->delete();
+      $data = $this->empleadoService->delete($id);
       return ResponseHttp::statusData(
         msg: 'Registro Eliminado Exitosamente',
         data: $data
