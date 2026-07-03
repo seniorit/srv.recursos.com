@@ -1,0 +1,6 @@
+{
+  "phpNamespaceResolver.removeOnSave": true,
+  "phpNamespaceResolver.sortMode": "length",
+  "phpNamespaceResolver.autoImportOnSave": true,
+  "phpNamespaceResolver.sortOnSave": true
+}
